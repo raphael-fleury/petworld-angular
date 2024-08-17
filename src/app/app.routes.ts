@@ -1,3 +1,37 @@
 import { Routes } from '@angular/router';
+import { AppointmentDetailsComponent } from './pages/appointment/appointment-details/appointment-details.component';
+import { HomeComponent } from './pages/home/home.component';
+import { CreateAppointmentComponent } from './pages/appointment/create-appointment/create-appointment.component';
+import { EditAppointmentComponent } from './pages/appointment/edit-appointment/edit-appointment.component';
+import { ClientsDashboardComponent } from './pages/client/clients-dashboard/clients-dashboard.component';
+import { CreateClientComponent } from './pages/client/create-client/create-client.component';
+import { ClientDetailsComponent } from './pages/client/client-details/client-details.component';
+import { EditClientComponent } from './pages/client/edit-client/edit-client.component';
+import { PetsDashboardComponent } from './pages/pet/pets-dashboard/pets-dashboard.component';
+import { CreatePetComponent } from './pages/pet/create-pet/create-pet.component';
+import { PetDetailsComponent } from './pages/pet/pet-details/pet-details.component';
+import { EditPetComponent } from './pages/pet/edit-pet/edit-pet.component';
+import { VeterinariansDashboardComponent } from './pages/veterinarian/veterinarians-dashboard/veterinarians-dashboard.component';
+import { CreateVeterinarianComponent } from './pages/veterinarian/create-veterinarian/create-veterinarian.component';
+import { VeterinarianDetailsComponent } from './pages/veterinarian/veterinarian-details/veterinarian-details.component';
+import { EditVeterinarianComponent } from './pages/veterinarian/edit-veterinarian/edit-veterinarian.component';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  { path: 'appointments/new', component: CreateAppointmentComponent },
+  { path: 'appointments/details/:id', component: AppointmentDetailsComponent },
+  { path: 'appointments/edit/:id', component: EditAppointmentComponent },
+  { path: 'clients', component: ClientsDashboardComponent },
+  { path: 'clients/new', component: CreateClientComponent },
+  { path: 'clients/details/:id', component: ClientDetailsComponent },
+  { path: 'clients/edit/:id', component: EditClientComponent },
+  { path: 'pets', component: PetsDashboardComponent },
+  { path: 'pets/new', component: CreatePetComponent },
+  { path: 'pets/details/:id', component: PetDetailsComponent },
+  { path: 'pets/edit/:id', component: EditPetComponent },
+  { path: 'veterinarians', component: VeterinariansDashboardComponent },
+  { path: 'veterinarians/new', component: CreateVeterinarianComponent },
+  { path: 'veterinarians/details/:id', component: VeterinarianDetailsComponent },
+  { path: 'veterinarians/edit/:id', component: EditVeterinarianComponent },
+  { path: '**', redirectTo: '' },
+  { path: '', component: HomeComponent }
+];
