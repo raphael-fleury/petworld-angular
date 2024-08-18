@@ -1,3 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-pw-1: #FFFFFF;
+  --color-pw-2: #FFEACD;
+  --color-pw-3: #FFC14D;
+  --color-pw-4: #FFA400;
+  --color-pw-5: #EB751E;
+  --color-pw-6: #C55C1B;
+  --color-pw-7: #6B2206;
+  --color-pw-8: #000000;
+
+  --color-background: #FFE9DA;
+  --color-primary: var(--color-pw-5);
+  --color-link: var(--color-pw-6);
+  --color-text: var(--color-pw-7);
+}
+
+body {
+  background-color: var(--color-background) !important;
+  font-family: "Exo", "Ubuntu", sans-serif;
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+h1 { @apply text-4xl font-semibold mb-3 }
+h2 { @apply text-3xl font-semibold mb-2.5 }
+h3 { @apply text-2xl font-semibold mb-2 }
+h4 { @apply text-xl font-semibold mb-1.5 }
+h5 { @apply text-lg font-semibold mb-1 }
+h6 { @apply font-semibold mb-0.5 }
+
+a, .btn-link {
+  @apply bg-transparent border-none underline text-orange-500 hover:font-semibold hover:bg-transparent hover:border-none py-2 px-3
+}
+
+input, .input, textarea, select, button, .btn {
+  @apply bg-gray-50 border border-gray-300 rounded-lg py-2 px-3 no-underline font-normal hover:font-normal cursor-pointer
+}
+
+input[type="submit"], button, .btn {
+  @apply bg-orange-500 hover:bg-orange-700 text-white border-orange-50
+}
+
+:disabled, .disabled {
+  @apply opacity-50 cursor-not-allowed
+}
+
+.btn-outline {
+  @apply bg-transparent hover:bg-orange-500 text-orange-700 hover:text-white border-orange-500 hover:border-transparent
+}
+
+select {
+  appearance: none;
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - .5em);
+  background-position-y: 50%;
+}
