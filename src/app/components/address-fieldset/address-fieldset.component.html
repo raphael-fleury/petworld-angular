@@ -1,0 +1,73 @@
+<fieldset [formGroup]="form">
+  <legend class="col-span-4 text-xl">Address</legend>
+  <div class="grid gap-6 mb-6 md:grid-cols-2">
+    <div class="country">
+      <label for="country">Country / Territory*</label>
+      <select name="country" id="country" formControlName="country"
+        [class.invalid]="form.get('country')?.invalid"
+      >
+        <option value="" disabled>Select a country</option>
+        <option *ngFor="let country of countries" [value]="country.code3">
+          {{country.name}}
+        </option>
+      </select>
+      <p class="validation-error" *ngIf="form.get('country')?.errors?.['required']">
+        Select a country
+      </p>
+    </div>
+    <div class="postal-code">
+      <label for="number">Postal Code*</label>
+      <input type="text" class="col-span-1"
+        id="postalCode" name="postalCode" formControlName="postalCode"
+        min="1" [placeholder]="placeholders.postalCode"
+        [class.invalid]="form.get('postalCode')?.invalid"
+      >
+      <p class="validation-error" *ngIf="form.get('postalCode')?.errors?.['required']">
+        Postal Code required
+      </p>
+    </div>
+    <div class="street">
+      <label for="street">Street*</label>
+      <input type="text" class="col-span-3"
+        id="street" name="street" formControlName="street"
+        [placeholder]="placeholders.street"
+        [class.invalid]="form.get('street')?.invalid"
+      >
+      <p class="validation-error" *ngIf="form.get('street')?.errors?.['required']">
+        Street required
+      </p>
+    </div>
+    <div class="number">
+      <label for="number">Number</label>
+      <input type="number" class="col-span-1"
+        id="number" name="number" formControlName="number"
+        min="0" [placeholder]="placeholders.number"
+        [class.invalid]="form.get('number')?.invalid"
+      >
+    </div>
+    <div class="city">
+      <label for="city">City*</label>
+      <input type="text" class="col-span-3"
+        id="city" name="city" formControlName="city"
+        [placeholder]="placeholders.city" required
+        [class.invalid]="form.get('city')?.invalid"
+      >
+      <p class="validation-error" *ngIf="form.get('city')?.errors?.['required']">
+        City required
+      </p>
+    </div>
+    <div class="state">
+      <label for="state">State / Province*</label>
+      <select name="state" id="state" formControlName="state"
+        [class.invalid]="form.get('state')?.invalid"
+      >
+        <option value="" disabled>Select a state</option>
+        <option value="SP">SP</option>
+        <option value="RJ">RJ</option>
+      </select>
+      <p class="validation-error" *ngIf="form.get('state')?.errors?.['required']">
+        Select a state
+      </p>
+    </div>
+  </div>
+</fieldset>

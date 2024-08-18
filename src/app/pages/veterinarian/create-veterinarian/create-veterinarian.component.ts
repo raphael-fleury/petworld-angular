@@ -5,20 +5,19 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { faker } from '@faker-js/faker'
 import { ToastrService } from 'ngx-toastr';
 import { VeterinarianService } from '../../../services/veterinarian.service';
-import { Country } from '../../../models/country.model';
-import { countries } from '../../../shared/countries';
+import { AddressFieldsetComponent } from '../../../components/address-fieldset/address-fieldset.component';
 
 @Component({
   selector: 'app-create-veterinarian',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, AddressFieldsetComponent],
   templateUrl: './create-veterinarian.component.html',
   styleUrl: './create-veterinarian.component.css'
 })
 export class CreateVeterinarianComponent {
   form!: FormGroup
+  addressForm!: FormGroup
   placeholders!: typeof this.form.value
-  countries: Country[] = []
   submitted = false
 
   constructor(
@@ -32,14 +31,6 @@ export class CreateVeterinarianComponent {
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       phone: new FormControl('', [Validators.required]),
-      address: new FormGroup({
-        country: new FormControl('', [Validators.required]),
-        postalCode: new FormControl('', [Validators.required]),
-        street: new FormControl('', [Validators.required]),
-        number: new FormControl(0),
-        city: new FormControl('', [Validators.required]),
-        state: new FormControl('', [Validators.required])
-      })
     })
 
     this.placeholders = {
@@ -53,8 +44,10 @@ export class CreateVeterinarianComponent {
         city: faker.location.city()
       }
     }
+  }
 
-    this.countries = countries
+  setAddressFormGroup(formGroup: FormGroup) {
+    this.addressForm = formGroup
   }
 
   reset() {
@@ -64,11 +57,15 @@ export class CreateVeterinarianComponent {
 
   onSubmit() {
     this.submitted = true
-    if (!this.form.valid) {
+    if (!this.form.valid || !this.addressForm.valid) {
       return
     }
 
-    const veterinarian = this.form.getRawValue()
+    const veterinarian = {
+      address: this.addressForm.getRawValue(),
+      ...this.form.getRawValue()
+    }
+
     this.veterinarianService.post(veterinarian).subscribe({
       next: (value) => {
         this.toastr.success('Veterinarian successfully created', '', {
