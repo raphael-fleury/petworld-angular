@@ -5,6 +5,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { faker } from '@faker-js/faker'
 import { ToastrService } from 'ngx-toastr';
 import { VeterinarianService } from '../../../services/veterinarian.service';
+import { Country } from '../../../models/country.model';
+import { countries } from '../../../shared/countries';
 
 @Component({
   selector: 'app-create-veterinarian',
@@ -16,6 +18,7 @@ import { VeterinarianService } from '../../../services/veterinarian.service';
 export class CreateVeterinarianComponent {
   form!: FormGroup
   placeholders!: typeof this.form.value
+  countries: Country[] = []
   submitted = false
 
   constructor(
@@ -50,6 +53,8 @@ export class CreateVeterinarianComponent {
         city: faker.location.city()
       }
     }
+
+    this.countries = countries
   }
 
   reset() {

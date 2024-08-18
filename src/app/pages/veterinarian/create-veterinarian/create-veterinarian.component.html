@@ -49,7 +49,9 @@
           [class.invalid]="form.get('address')?.get('country')?.invalid"
         >
           <option value="" disabled>Select a country</option>
-          <option value="BR">Brazil</option>
+          <option *ngFor="let country of countries" [value]="country.code3">
+            {{country.name}}
+          </option>
         </select>
         <p class="validation-error" *ngIf="form.get('address')?.get('country')?.errors?.['required']">
           Select a country
