@@ -1,7 +1,0 @@
-input:not([type="submit"]), select {
-  @apply block w-full
-}
-
-label {
-  @apply mb-2 text-sm font-medium
-}
