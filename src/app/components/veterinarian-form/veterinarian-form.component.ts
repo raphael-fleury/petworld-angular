@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AddressFieldsetComponent } from '../address-fieldset/address-fieldset.component';
 import { faker } from '@faker-js/faker';
@@ -13,6 +13,8 @@ import { Veterinarian } from '../../models/veterinarian.model';
   styleUrl: './veterinarian-form.component.css'
 })
 export class VeterinarianFormComponent {
+  @Input() disabled = false
+  @Input() default?: Veterinarian
   @Output() onSubmit = new EventEmitter<Veterinarian>()
 
   form!: FormGroup
@@ -22,9 +24,9 @@ export class VeterinarianFormComponent {
 
   ngOnInit() {
     this.form = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.required]),
+      name: new FormControl(this.default?.name ?? '', [Validators.required]),
+      email: new FormControl(this.default?.email ?? '', [Validators.required, Validators.email]),
+      phone: new FormControl(this.default?.phone ?? '', [Validators.required]),
     })
 
     this.placeholders = {
@@ -40,8 +42,26 @@ export class VeterinarianFormComponent {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.disabled ? this.disableForms() : this.enableForms()
+    if (changes['default']?.isFirstChange()) {
+      this.form?.reset(this.default)
+      this.addressForm?.reset(this.default?.address)
+    }
+  }
+
   setAddressFormGroup(formGroup: FormGroup) {
     this.addressForm = formGroup
+  }
+
+  enableForms() {
+    this.form?.enable()
+    this.addressForm?.enable()
+  }
+
+  disableForms() {
+    this.form?.disable()
+    this.addressForm?.disable()
   }
 
   reset() {

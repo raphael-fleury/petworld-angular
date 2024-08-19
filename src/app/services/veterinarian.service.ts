@@ -16,22 +16,22 @@ export class VeterinarianService {
   }
 
   getById(id: string) {
-    return this.http.get(`${this.apiUrl}/veterinarians/${id}`)
+    return this.http.get<Veterinarian>(`${this.apiUrl}/veterinarians/${id}`)
   }
 
   post(veterinarian: Veterinarian) {
-    return this.http.post(`${this.apiUrl}/veterinarians`, veterinarian)
+    return this.http.post<Veterinarian>(`${this.apiUrl}/veterinarians`, veterinarian)
   }
 
   put(id: string, veterinarian: Veterinarian) {
-    return this.http.put(`${this.apiUrl}/veterinarians/${id}`, veterinarian)
+    return this.http.put<Veterinarian>(`${this.apiUrl}/veterinarians/${id}`, veterinarian)
   }
 
   patch(id: string, veterinarian: Partial<Veterinarian>) {
-    return this.http.patch(`${this.apiUrl}/veterinarians/${id}`, veterinarian)
+    return this.http.patch<Veterinarian>(`${this.apiUrl}/veterinarians/${id}`, veterinarian)
   }
 
   deleteById(id: string) {
-    return this.http.delete(`${this.apiUrl}/veterinarians/${id}`)
+    return this.http.delete<Veterinarian>(`${this.apiUrl}/veterinarians/${id}`)
   }
 }
