@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { VeterinarianService } from '../../../services/http/veterinarian.service';
-import { Veterinarian } from '../../../models/veterinarian.model';
-import { VeterinarianFormComponent } from '../../../components/veterinarian-form/veterinarian-form.component';
+import { VeterinarianFormComponent } from 'app/components/veterinarian-form/veterinarian-form.component';
+import { Veterinarian } from 'app/models/veterinarian.model';
+import { VeterinarianService } from 'app/services/http/veterinarian.service';
 
 @Component({
   selector: 'app-create-veterinarian',

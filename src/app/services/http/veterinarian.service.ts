@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Veterinarian } from '../../models/veterinarian.model';
+import { Veterinarian } from 'app/models/veterinarian.model';
 
 type VeterinarianWithId = Veterinarian & {id: string}
 

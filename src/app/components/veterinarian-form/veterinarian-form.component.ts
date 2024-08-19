@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AddressFieldsetComponent } from '../address-fieldset/address-fieldset.component';
 import { faker } from '@faker-js/faker';
-import { emptyVeterinarian, Veterinarian } from '../../models/veterinarian.model';
+import { emptyVeterinarian, Veterinarian } from 'app/models/veterinarian.model';
+import { AddressFieldsetComponent } from '../address-fieldset/address-fieldset.component';
 
 @Component({
   selector: 'app-veterinarian-form',

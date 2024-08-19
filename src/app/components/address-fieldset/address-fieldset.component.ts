@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { faker } from '@faker-js/faker';
-import { countries } from '../../shared/countries';
-import { Address } from '../../models/address.model';
+import { countries } from 'app/shared/countries';
+import { Address } from 'app/models/address.model';
 
 @Component({
   selector: 'app-address-fieldset',
