@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { VeterinarianService } from '../../../services/veterinarian.service';
 import { Veterinarian } from '../../../models/veterinarian.model';
@@ -10,7 +8,7 @@ import { VeterinarianFormComponent } from '../../../components/veterinarian-form
 @Component({
   selector: 'app-create-veterinarian',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, VeterinarianFormComponent],
+  imports: [RouterModule, VeterinarianFormComponent],
   templateUrl: './create-veterinarian.component.html',
   styleUrl: './create-veterinarian.component.css'
 })

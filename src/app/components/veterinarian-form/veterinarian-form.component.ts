@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { AddressFieldsetComponent } from '../address-fieldset/address-fieldset.component';
 import { faker } from '@faker-js/faker';
 import { Veterinarian } from '../../models/veterinarian.model';
@@ -9,7 +8,7 @@ import { Veterinarian } from '../../models/veterinarian.model';
 @Component({
   selector: 'app-veterinarian-form',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, AddressFieldsetComponent],
+  imports: [CommonModule, ReactiveFormsModule, AddressFieldsetComponent],
   templateUrl: './veterinarian-form.component.html',
   styleUrl: './veterinarian-form.component.css'
 })
