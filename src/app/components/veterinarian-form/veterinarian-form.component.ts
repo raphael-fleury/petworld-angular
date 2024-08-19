@@ -14,16 +14,22 @@ import { AddressFieldsetComponent } from '../address-fieldset/address-fieldset.c
 })
 export class VeterinarianFormComponent {
   private _default = emptyVeterinarian
+  private _disabled = false
 
   @Output() onSubmit = new EventEmitter<Veterinarian>()
-  @Input() disabled = false
+  @Input()
+  set disabled(value: boolean) {
+    this._disabled = value
+    this.onDisableUpdated()
+  }
   @Input()
   set default(veterinarian: Veterinarian) {
     this._default = veterinarian
     this.placeholders = veterinarian
-    this.form = this.generateForm()
+    this.updateForm()
   }
 
+  get disabled() { return this._disabled }
   get default() { return this._default }
 
   private addressForm?: AddressFieldsetComponent['form']
@@ -35,10 +41,19 @@ export class VeterinarianFormComponent {
 
   setAddressFormGroup(formGroup: FormGroup) {
     this.addressForm = formGroup
-    this.form = this.generateForm()
+    this.updateForm()
   }
 
-  generateForm() {
+  onDisableUpdated() {
+    this.disabled ? this.form.disable() : this.form.enable()
+  }
+
+  updateForm() {
+    this.form = this.generateForm()
+    this.onDisableUpdated()
+  }
+
+  private generateForm() {
     return this.fb.nonNullable.group({
       name:  [this._default?.name  ?? '', [Validators.required]],
       email: [this._default?.email ?? '', [Validators.required, Validators.email]],
