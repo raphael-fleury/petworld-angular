@@ -16,11 +16,12 @@ export class AddressFieldsetComponent {
   @Output() onFormGroupChange = new EventEmitter<FormGroup>()
   @Input()
   set default(address: Address) {
-    this.form.patchValue(address)
+    this.form = this.generateForm(address)
     this.placeholders = {
       ...address,
       number: (address.number ?? '').toString()
     }
+    this.onFormGroupChange.emit(this.form)
   }
 
   form = this.generateForm()
@@ -33,14 +34,14 @@ export class AddressFieldsetComponent {
     this.onFormGroupChange.emit(this.form)
   }
 
-  generateForm() {
+  private generateForm(defaults?: Address) {
     return this.fb.nonNullable.group({
-      country: ['', [Validators.required]],
-      postalCode: ['', [Validators.required]],
-      street: ['', [Validators.required]],
-      number: [NaN],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required]]
+      country: [defaults?.country ?? '', [Validators.required]],
+      postalCode: [defaults?.postalCode ?? '', [Validators.required]],
+      street: [defaults?.street ?? '', [Validators.required]],
+      number: [defaults?.number ?? NaN],
+      city: [defaults?.city ?? '', [Validators.required]],
+      state: [defaults?.state ?? '', [Validators.required]]
     })
   }
 

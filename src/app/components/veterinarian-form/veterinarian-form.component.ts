@@ -19,8 +19,8 @@ export class VeterinarianFormComponent {
   @Input() disabled = false
   @Input()
   set default(veterinarian: Veterinarian) {
+    this.form = this.generateForm(veterinarian)
     this._default = veterinarian
-    this.form.patchValue(veterinarian)
     this.placeholders = veterinarian
   }
 
@@ -47,11 +47,11 @@ export class VeterinarianFormComponent {
     this.addressForm?.disable()
   }
 
-  generateForm() {
+  generateForm(defaults?: Partial<Veterinarian>) {
     return this.fb.nonNullable.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
+      name:  [defaults?.name  ?? '', [Validators.required]],
+      email: [defaults?.email ?? '', [Validators.required, Validators.email]],
+      phone: [defaults?.phone ?? '', [Validators.required]],
     })
   }
 
