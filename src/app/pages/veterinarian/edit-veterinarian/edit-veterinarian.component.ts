@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { VeterinarianService } from '../../../services/veterinarian.service';
+import { VeterinarianService } from '../../../services/http/veterinarian.service';
 import { Veterinarian } from '../../../models/veterinarian.model';
 import { VeterinarianFormComponent } from '../../../components/veterinarian-form/veterinarian-form.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-veterinarian',
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './edit-veterinarian.component.css'
 })
 export class EditVeterinarianComponent {
+  id = ''
   veterinarian?: Veterinarian
   formDisabled = true
 
@@ -31,8 +32,12 @@ export class EditVeterinarianComponent {
   }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id') ?? ""
-    this.veterinarianService.getById(id).subscribe({
+    this.id = this.route.snapshot.paramMap.get('id') ?? ""
+    this.loadVeterinarian()
+  }
+
+  private loadVeterinarian() {
+    this.veterinarianService.getById(this.id).subscribe({
       next: (veterinarian) => {
         this.veterinarian = veterinarian
         this.formDisabled = false
@@ -53,13 +58,13 @@ export class EditVeterinarianComponent {
 
   onSubmit(veterinarian: Veterinarian) {
     this.formDisabled = true
-    this.veterinarianService.post(veterinarian).subscribe({
+    this.veterinarianService.put(this.id, veterinarian).subscribe({
       next: (value) => {
-        this.toastr.success('Veterinarian successfully created', '', {
+        this.toastr.success('Veterinarian successfully edited', '', {
           progressBar: true,
           positionClass: 'toast-bottom-right'
         })
-        this.router.navigate(['/veterinarians'])
+        this.router.navigate([`/veterinarians/details/${this.id}`])
       },
       error: (error) => {
         this.toastr.error('Error on creating veterinarian', '', {

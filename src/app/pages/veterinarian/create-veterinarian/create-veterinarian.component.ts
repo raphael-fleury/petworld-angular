@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { VeterinarianService } from '../../../services/veterinarian.service';
+import { VeterinarianService } from '../../../services/http/veterinarian.service';
 import { Veterinarian } from '../../../models/veterinarian.model';
 import { VeterinarianFormComponent } from '../../../components/veterinarian-form/veterinarian-form.component';
 
@@ -27,7 +27,7 @@ export class CreateVeterinarianComponent {
           progressBar: true,
           positionClass: 'toast-bottom-right'
         })
-        this.router.navigate(['/veterinarians'])
+        this.router.navigate([`/veterinarians/details/${value.id}`])
       },
       error: (error) => {
         this.toastr.error('Error on creating veterinarian', '', {

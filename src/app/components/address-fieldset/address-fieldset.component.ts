@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { faker } from '@faker-js/faker';
-import { Country } from '../../models/country.model';
 import { countries } from '../../shared/countries';
+import { Address } from '../../models/address.model';
 
 @Component({
   selector: 'app-address-fieldset',
@@ -14,30 +14,42 @@ import { countries } from '../../shared/countries';
 })
 export class AddressFieldsetComponent {
   @Output() onFormGroupChange = new EventEmitter<FormGroup>()
+  @Input()
+  set default(address: Address) {
+    this.form.patchValue(address)
+    this.placeholders = {
+      ...address,
+      number: (address.number ?? '').toString()
+    }
+  }
 
-  form!: FormGroup
-  placeholders!: any
-  countries: Country[] = []
+  form = this.generateForm()
+  placeholders = this.generateFakePlaceholders()
+  countries = countries
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.countries = countries
+    this.onFormGroupChange.emit(this.form)
+  }
 
-    this.form = new FormGroup({
-      country: new FormControl('', [Validators.required]),
-      postalCode: new FormControl('', [Validators.required]),
-      street: new FormControl('', [Validators.required]),
-      number: new FormControl(0),
-      city: new FormControl('', [Validators.required]),
-      state: new FormControl('', [Validators.required])
+  generateForm() {
+    return this.fb.nonNullable.group({
+      country: ['', [Validators.required]],
+      postalCode: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      number: [NaN],
+      city: ['', [Validators.required]],
+      state: ['', [Validators.required]]
     })
+  }
 
-    this.placeholders = {
+  generateFakePlaceholders() {
+    return {
       postalCode: faker.location.zipCode(),
       street: faker.location.street(),
-      number: faker.number.int({ min: 1, max: 10000 }),
+      number: faker.number.int({ min: 1, max: 10000 }).toString(),
       city: faker.location.city()
     }
-
-    this.onFormGroupChange.emit(this.form)
   }
 }

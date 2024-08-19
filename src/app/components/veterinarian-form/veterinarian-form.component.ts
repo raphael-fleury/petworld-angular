@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AddressFieldsetComponent } from '../address-fieldset/address-fieldset.component';
 import { faker } from '@faker-js/faker';
-import { Veterinarian } from '../../models/veterinarian.model';
+import { emptyVeterinarian, Veterinarian } from '../../models/veterinarian.model';
 
 @Component({
   selector: 'app-veterinarian-form',
@@ -13,42 +13,25 @@ import { Veterinarian } from '../../models/veterinarian.model';
   styleUrl: './veterinarian-form.component.css'
 })
 export class VeterinarianFormComponent {
-  @Input() disabled = false
-  @Input() default?: Veterinarian
-  @Output() onSubmit = new EventEmitter<Veterinarian>()
+  private _default = emptyVeterinarian
 
-  form!: FormGroup
-  addressForm!: FormGroup
-  placeholders!: typeof this.form.value
+  @Output() onSubmit = new EventEmitter<Veterinarian>()
+  @Input() disabled = false
+  @Input()
+  set default(veterinarian: Veterinarian) {
+    this._default = veterinarian
+    this.form.patchValue(veterinarian)
+    this.placeholders = veterinarian
+  }
+
+  get default() { return this._default }
+
+  private addressForm!: FormGroup
+  form = this.generateForm()
+  placeholders = this.generateFakePlaceholders()
   submitted = false
 
-  ngOnInit() {
-    this.form = new FormGroup({
-      name: new FormControl(this.default?.name ?? '', [Validators.required]),
-      email: new FormControl(this.default?.email ?? '', [Validators.required, Validators.email]),
-      phone: new FormControl(this.default?.phone ?? '', [Validators.required]),
-    })
-
-    this.placeholders = {
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-      phone: faker.phone.number(),
-      address: {
-        postalCode: faker.location.zipCode(),
-        street: faker.location.street(),
-        number: faker.number.int({ min: 1, max: 10000 }),
-        city: faker.location.city()
-      }
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.disabled ? this.disableForms() : this.enableForms()
-    if (changes['default']?.isFirstChange()) {
-      this.form?.reset(this.default)
-      this.addressForm?.reset(this.default?.address)
-    }
-  }
+  constructor(private fb: FormBuilder) {}
 
   setAddressFormGroup(formGroup: FormGroup) {
     this.addressForm = formGroup
@@ -62,6 +45,22 @@ export class VeterinarianFormComponent {
   disableForms() {
     this.form?.disable()
     this.addressForm?.disable()
+  }
+
+  generateForm() {
+    return this.fb.nonNullable.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required]],
+    })
+  }
+
+  generateFakePlaceholders() {
+    return {
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+      phone: faker.phone.number()
+    }
   }
 
   reset() {
