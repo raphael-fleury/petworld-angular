@@ -19,14 +19,14 @@ export class VeterinarianFormComponent {
   @Input() disabled = false
   @Input()
   set default(veterinarian: Veterinarian) {
-    this.form = this.generateForm(veterinarian)
     this._default = veterinarian
     this.placeholders = veterinarian
+    this.form = this.generateForm()
   }
 
   get default() { return this._default }
 
-  private addressForm!: FormGroup
+  private addressForm?: AddressFieldsetComponent['form']
   form = this.generateForm()
   placeholders = this.generateFakePlaceholders()
   submitted = false
@@ -35,23 +35,15 @@ export class VeterinarianFormComponent {
 
   setAddressFormGroup(formGroup: FormGroup) {
     this.addressForm = formGroup
+    this.form = this.generateForm()
   }
 
-  enableForms() {
-    this.form?.enable()
-    this.addressForm?.enable()
-  }
-
-  disableForms() {
-    this.form?.disable()
-    this.addressForm?.disable()
-  }
-
-  generateForm(defaults?: Partial<Veterinarian>) {
+  generateForm() {
     return this.fb.nonNullable.group({
-      name:  [defaults?.name  ?? '', [Validators.required]],
-      email: [defaults?.email ?? '', [Validators.required, Validators.email]],
-      phone: [defaults?.phone ?? '', [Validators.required]],
+      name:  [this._default?.name  ?? '', [Validators.required]],
+      email: [this._default?.email ?? '', [Validators.required, Validators.email]],
+      phone: [this._default?.phone ?? '', [Validators.required]],
+      address: this.addressForm
     })
   }
 
@@ -66,20 +58,15 @@ export class VeterinarianFormComponent {
   reset() {
     this.submitted = false
     this.form.reset()
-    this.addressForm.reset()
   }
 
   submit() {
     this.submitted = true
-    if (!this.form.valid || !this.addressForm.valid) {
+    if (!this.form.valid) {
       return
     }
 
-    const veterinarian = {
-      address: this.addressForm.getRawValue(),
-      ...this.form.getRawValue()
-    }
-
+    const veterinarian = this.form.getRawValue()
     this.onSubmit.emit(veterinarian)
   }
 }
