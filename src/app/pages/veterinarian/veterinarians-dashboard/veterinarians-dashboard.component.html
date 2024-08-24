@@ -1,1 +1,43 @@
-<p>veterinarians-dashboard works!</p>
+<h1>Veterinarians</h1>
+<button [routerLink]="['/veterinarians/new']" class="mb-4">Create new</button>
+<app-confirm-dialog *ngIf="veterinarianToDelete"
+  message='Do you want to delete "{{veterinarianToDelete.name}}"? This action cannot be undone'
+  (onConfirm)="deleteVeterinarian(veterinarianToDelete)"
+  (onCancel)="veterinarianToDelete = null"
+/>
+<div class="relative overflow-x-auto">
+  <table class="w-full text-left" *ngIf="veterinarians.length > 0">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>E-mail</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let veterinarian of veterinarians">
+        <td>{{veterinarian.name}}</td>
+        <td>{{veterinarian.email}}</td>
+        <td>{{veterinarian.phone}}</td>
+        <td>{{formatAddress(veterinarian)}}</td>
+        <td class="operations">
+          <a [routerLink]="['/veterinarians/details/' + veterinarian.id]">Details</a>
+          <a [routerLink]="['/veterinarians/edit/' + veterinarian.id]">Edit</a>
+          <a (click)="veterinarianToDelete = veterinarian">Remove</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p *ngIf="loadingState == 'loading'">
+  Loading...
+</p>
+<p *ngIf="loadingState == 'done' && veterinarians.length < 1">
+  No veterinarians found.
+</p>
+<p *ngIf="loadingState == 'error'">
+  Couldn't load veterinarians.
+</p>
+<button class="btn-link" *ngIf="hasNext" (click)="loadMore()">Load more...</button>

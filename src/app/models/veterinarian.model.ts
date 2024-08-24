@@ -7,6 +7,8 @@ export type Veterinarian = {
   address: Address,
 }
 
+export type VeterinarianWithId = Veterinarian & {id: string}
+
 export const emptyVeterinarian = {
   name: '',
   email: '',

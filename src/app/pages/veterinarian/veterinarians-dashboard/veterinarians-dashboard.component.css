@@ -1,0 +1,7 @@
+tr td, tr th {
+  @apply pr-3 pb-3
+}
+
+td.operations {
+  @apply flex flex-col lg:flex-row gap-3
+}

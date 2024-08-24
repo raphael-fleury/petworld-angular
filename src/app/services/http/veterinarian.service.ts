@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Veterinarian } from 'app/models/veterinarian.model';
-
-type VeterinarianWithId = Veterinarian & {id: string}
+import { Page } from 'app/models/page.model';
+import { Veterinarian, VeterinarianWithId } from 'app/models/veterinarian.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +12,8 @@ export class VeterinarianService {
 
   constructor(private http: HttpClient) { }
 
-  get() {
-    return this.http.get(`${this.apiUrl}/veterinarians`)
+  get({skip = 0, limit = 10}) {
+    return this.http.get<Page<VeterinarianWithId>>(`${this.apiUrl}/veterinarians?skip=${skip}&limit=${limit}`)
   }
 
   getById(id: string) {

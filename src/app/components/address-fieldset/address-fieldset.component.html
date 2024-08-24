@@ -7,7 +7,7 @@
         [class.invalid]="form.get('country')?.invalid"
       >
         <option value="" disabled>Select a country</option>
-        <option *ngFor="let country of countries" [value]="country.code3">
+        <option *ngFor="let country of countries" [value]="country.code">
           {{country.name}}
         </option>
       </select>
